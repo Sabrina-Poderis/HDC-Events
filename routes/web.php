@@ -6,10 +6,14 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/contato', function () {
-    return view('contact');
+Route::get('/eventos', function () {
+    return view('events');
 });
 
-Route::get('/produtos', function () {
-    return view('products');
+Route::get('/evento', function () {
+    return view('event');
+});
+
+Route::get('/contato', function () {
+    return view('contact');
 });

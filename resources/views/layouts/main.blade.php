@@ -10,40 +10,43 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">HDC Events</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="/">HDC Events</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Pesquisar eventos" aria-label="Pesquisar eventos">
-                        <button class="btn btn-outline-danger" type="submit">
-                            <ion-icon name="search-outline"></ion-icon>
-                        </button>
-                    </form>
-
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="navbar-nav me-auto mb-2 mb-sm-0">
                         <li class="nav-item">
-                            <button class="btn btn-light m-1" type="button">
-                                <ion-icon style="color: #e3342f; font-size=64px" name="location-outline"></ion-icon> Qualquer Lugar
-                                <ion-icon style="color: #e3342f; font-size=64px" name="chevron-down-outline"></ion-icon>
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/eventos">Eventos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/contato">Contato</a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-light text-danger" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                                Acessar sua conta
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-outline-danger me-3" data-bs-toggle="modal" data-bs-target="#modalRegister"> 
+                                Cadastre-se
                             </button>
                         </li>
                     </ul>
-
-
-                    <div class="d-flex align-items-center">
-                        <button type="button" class="btn btn-light text-danger px-3 me-2">
-                            Acessar sua conta
-                        </button>
-                        <button type="button" class="btn btn-outline-danger me-3">
-                            Cadastre-se
-                        </button>
-                    </div>
+                    <form>
+                        <div class="input-group">
+                            <input type="search" class="form-control" placeholder="Pesquisar eventos" aria-label="Pesquisar eventos">
+                            <button class="btn btn-outline-danger" type="submit">
+                                <ion-icon name="search-outline"></ion-icon>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -85,7 +88,7 @@
                         </div>
             
                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                            <ul class="nav">
+                            <ul class="nav justify-content-center">
                                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><ion-icon size="large" style="color: #e3342f" name="mail-outline"></ion-icon></a></li>
                                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><ion-icon size="large" style="color: #e3342f" name="logo-linkedin"></ion-icon></a></li>
                                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><ion-icon size="large" style="color: #e3342f" name="logo-github"></ion-icon></a></li>
@@ -96,6 +99,69 @@
                 </footer>
             </div>
         </footer>
+
+        <!-- Modal Login-->
+        <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLoginLabel">Acesse sua conta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="login_email" name="login_email" placeholder="E-mail">
+                            <label for="login_email">E-mail</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="login_password" name="login_password" placeholder="Senha">
+                            <label for="login_password">Senha</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Logar</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Register-->
+        <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRegisterLabel">Cadastre-se</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="register_name" name="register_name" placeholder="Nome">
+                            <label for="register_name">Nome</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="register_email" name="login_email" placeholder="E-mail">
+                            <label for="register_email">E-mail</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="register_password" name="register_password" placeholder="Senha">
+                            <label for="register_password">Senha</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="register_confirm_password" name="register_confirm_password" placeholder="Confirmar senha">
+                            <label for="register_confirm_password">Confirmar senha</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Cadastrar-se</button>
+                </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
