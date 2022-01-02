@@ -131,54 +131,54 @@
 
      <!-- Modal Localização-->
      <div class="modal fade" id="modalLocation" tabindex="-1" aria-labelledby="modalLocationLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLocationLabel">Localização</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="location_where" name="location_where" placeholder="Onde?">
-                                <label for="location_where">Onde?</label>
-                            </div>
-                        </form>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLocationLabel">Localização</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="location_where" name="location_where" placeholder="Onde?">
+                            <label for="location_where">Onde?</label>
+                        </div>
+                    </form>
 
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <a href="" class="link-dark text-decoration-none">
-                                    <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
-                                    Santo André
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="link-dark text-decoration-none">
-                                    <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
-                                    São Bernardo
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="link-dark text-decoration-none">
-                                    <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
-                                    São Caetano
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="link-dark text-decoration-none">
-                                    <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
-                                    Diadema
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="link-dark text-decoration-none">
-                                    <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
-                                    Alagoinha
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="" class="link-dark text-decoration-none">
+                                <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
+                                Santo André
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="" class="link-dark text-decoration-none">
+                                <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
+                                São Bernardo
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="" class="link-dark text-decoration-none">
+                                <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
+                                São Caetano
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="" class="link-dark text-decoration-none">
+                                <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
+                                Diadema
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="" class="link-dark text-decoration-none">
+                                <ion-icon style="color: #e3342f" size="" name="location-outline"></ion-icon>
+                                Alagoinha
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 @endsection

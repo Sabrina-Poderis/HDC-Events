@@ -17,3 +17,19 @@ Route::get('/evento', function () {
 Route::get('/contato', function () {
     return view('contact');
 });
+
+// Admin
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    Route::get('/estabelecimentos', function () {
+        return view('admin.establishment');
+    });
+    Route::get('/eventos', function () {
+        return view('admin.events');
+    });
+    Route::get('/usuarios', function () {
+        return view('admin.users');
+    });
+});
