@@ -78,20 +78,20 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="register_name" name="register_name" placeholder="Nome">
+                            <input type="text" class="form-control" id="register_name" name="name" placeholder="Nome">
                             <label for="register_name">Nome</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="register_email" name="login_email" placeholder="E-mail">
+                            <input type="email" class="form-control" id="register_email" name="email" placeholder="E-mail">
                             <label for="register_email">E-mail</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="register_password" name="register_password" placeholder="Senha">
+                            <input type="password" class="form-control" id="register_password" name="password" placeholder="Senha">
                             <label for="register_password">Nova senha</label>
                         </div>
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="register_confirm_password" name="register_confirm_password" placeholder="Confirmar senha">
+                            <input type="password" class="form-control" id="register_confirm_password" name="confirm_password" placeholder="Confirmar senha">
                             <label for="register_confirm_password">Confirmar senha</label>
                         </div>
                     </form>
@@ -104,7 +104,10 @@
         </div>
 
         <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @yield('script')
 
         <!-- Ícones -->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

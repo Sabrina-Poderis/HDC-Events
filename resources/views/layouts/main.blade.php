@@ -109,7 +109,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="POST" action="{{ route('login') }}">
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control" id="login_email" name="login_email" placeholder="E-mail">
                             <label for="login_email">E-mail</label>
@@ -131,40 +131,42 @@
         <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalRegisterLabel">Cadastre-se</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="register_name" name="register_name" placeholder="Nome">
-                            <label for="register_name">Nome</label>
-                        </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRegisterLabel">Cadastre-se</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ route('register') }}">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="register_name" name="name" placeholder="Nome">
+                                <label for="register_name">Nome</label>
+                            </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="register_email" name="login_email" placeholder="E-mail">
-                            <label for="register_email">E-mail</label>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="register_email" name="email" placeholder="E-mail">
+                                <label for="register_email">E-mail</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="register_password" name="password" placeholder="Senha">
+                                <label for="register_password">Senha</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="register_confirm_password" name="confirm_password" placeholder="Confirmar senha">
+                                <label for="register_confirm_password">Confirmar senha</label>
+                            </div>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="register_password" name="register_password" placeholder="Senha">
-                            <label for="register_password">Senha</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="register_confirm_password" name="register_confirm_password" placeholder="Confirmar senha">
-                            <label for="register_confirm_password">Confirmar senha</label>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Cadastrar-se</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Cadastrar-se</button>
-                </div>
                 </div>
             </div>
         </div>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        @yield('scripts')
 
         <!-- Ícones -->
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
