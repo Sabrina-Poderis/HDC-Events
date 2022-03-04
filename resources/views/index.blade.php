@@ -12,7 +12,7 @@
             </div>
 
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <img src="/img/evento_1.jpg" class="img-fluid rounded" alt="...">
+                <img src="/img/evento_1.jpg" class="img-fluid rounded" alt="imagem de evento">
             </div>
         </div>
     </div>
@@ -27,24 +27,21 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="/img/evento_2.jpg" class="d-block w-100" alt="...">
+                    <img src="/img/evento_2.jpg" class="d-block w-100" alt="imagem de palestra">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>First slide label</h5>
-                        <p>Some representative placeholder content for the first slide.</p>
+                        <h5>Acompanhe os principais palestrantes do mundo da computação</h5>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="/img/evento_3.jpg" class="d-block w-100" alt="...">
+                    <img src="/img/evento_3.jpg" class="d-block w-100" alt="imagem de evento">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Second slide label</h5>
-                        <p>Some representative placeholder content for the second slide.</p>
+                        <h5>Presencie eventos exclusivos</h5>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="/img/evento_4.jpg" class="d-block w-100" alt="...">
+                    <img src="/img/evento_4.jpg" class="d-block w-100" alt="palestra de UX">
                     <div class="carousel-caption d-none d-md-block">
-                        <h5>Third slide label</h5>
-                        <p>Some representative placeholder content for the third slide.</p>
+                        <h5>Receba informações sobre as principais tecnologias do mercado</h5>
                     </div>
                 </div>
             </div>
@@ -67,7 +64,7 @@
                 <div class="col-4">
                     <img src="/img/undraw_world_re_768g.svg" 
                          class="img-fluid" 
-                         alt="...">
+                         alt="mulher abraçando o mundo">
                 </div>
     
                 <div class="col-4">
@@ -76,7 +73,7 @@
                 </div>
     
                 <div class="col-4">
-                    <button type="button" class="btn btn-light">Acesse sua conta</button>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modalLogin">Acesse sua conta</button>
                 </div>
             </div>
         </div>
@@ -86,65 +83,33 @@
     <div class="container py-3">
         <div class="row gx-5">
             <h3>Eventos presenciais</h3>
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                            <p class="card-text">Local - Cidade, UF</p>
+            @forelse($liveEvents as $liveEvent)
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
+                    <a href="{{url('evento') . '/' . $liveEvent->id}}" class="link-dark text-decoration-none">
+                        <div class="card">
+                            @if($liveEvent->image)
+                                <img src="{{ isset($liveEvent->image) ? asset('img/events/'.$liveEvent->image) :  asset('img/no-found.png')}}" alt="{{ $liveEvent->title }}" class="img-responsive">
+                            @else
+                                <img src="{{ asset('img/not-found.png') }}" alt="Sem Imagem" class="img-responsive">
+                            @endif
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <span class="badge bg-danger">{{ \Carbon\Carbon::parse($liveEvent->event_Date)->format('d/m h:m') }}</span>
+                                </p>
+                                <h5 class="card-title">{{$liveEvent->title}}</h5>
+                                <p class="card-text">{{ $liveEvent->establishment->district}} - {{ $liveEvent->establishment->city}}, {{ $liveEvent->establishment->uf}}</p>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-            
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                            <p class="card-text">Local - Cidade, UF</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                            <p class="card-text">Local - Cidade, UF</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                            <p class="card-text">Local - Cidade, UF</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @empty
+                <p>Não foram encontrados eventos presenciais</p>
+            @endforelse
+        </div>
+        <div class="float-end">
+            <a href="{{ route('eventos', ['type' => 'online']) }}" class="btn btn-outline-danger me-3"> 
+                Veja mais
+            </a>
         </div>
     </div>
 
@@ -152,61 +117,32 @@
     <div class="container py-3">
         <div class="row gx-5">
             <h3>Eventos online</h3>
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
+            @forelse($onlineEvents as $onlineEvent)
+                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
+                    <a href="{{url('evento') . '/' . $onlineEvent->id}}" class="link-dark text-decoration-none">
+                        <div class="card">
+                            @if($onlineEvent->image)
+                                <img src="{{ isset($onlineEvent->image) ? asset('img/events/'.$onlineEvent->image) :  asset('img/no-found.png')}}" alt="{{ $onlineEvent->title }}" class="img-responsive">
+                            @else
+                                <img src="{{ asset('img/not-found.png') }}" alt="Sem Imagem" class="img-responsive">
+                            @endif
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <span class="badge bg-danger">{{ \Carbon\Carbon::parse($onlineEvent->event_Date)->format('d/m h:m') }}</span>
+                                </p>
+                                <h5 class="card-title">{{$onlineEvent->title}}</h5>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-            
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 my-2">
-                <a href="" class="link-dark text-decoration-none">
-                    <div class="card">
-                        <img src="https://images.unsplash.com/photo-1638913970895-d3df59be1466?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                <span class="badge bg-danger">22 DEZ > 22 JAN</span>
-                            </p>
-                            <h5 class="card-title">Nome evento</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @empty
+                <p>Não foram encontrados eventos online</p>
+            @endforelse
+        </div>
+        <div class="float-end">
+            <a href="{{ route('eventos', ['type' => 'presencial']) }}" class="btn btn-outline-danger me-3"> 
+                Veja mais
+            </a>
         </div>
     </div>
 @endsection

@@ -13,6 +13,7 @@ class CreateEventsTable extends Migration{
             $table->foreignId('establishment_id');
             $table->dateTime('event_date');
             $table->enum('type', ['presencial', 'online']);
+            $table->string("image");
             $table->timestamps();
             $table->softDeletes($column = 'deleted_at');
         });

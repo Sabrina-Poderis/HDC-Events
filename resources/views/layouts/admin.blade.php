@@ -16,7 +16,15 @@
             
             <div class="navbar-nav">
                 <div class="nav-item">
-                    <a class="nav-link px-3" href="#">Usuário - Sair</a>
+                    <a href="{{ url('/logout') }}" class="nav-link px-3"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"
+                    >
+                        {{ Auth::user()->name }} - Sair
+                    </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </div>
         </header>
@@ -62,6 +70,19 @@
                     </nav>
 
                     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-3">
+                        @if(session()->has('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Sucesso!</strong> {{ session()->get('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+                        @if(session()->has('error'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Atenção!</strong> {{ session()->get('error') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         @yield('content')
                     </main>
                 </div>
@@ -71,34 +92,39 @@
         <div class="modal fade" id="modalProfile" tabindex="-1" aria-labelledby="modalProfileLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalProfileLabel">Alterar perfil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="register_name" name="name" placeholder="Nome">
-                            <label for="register_name">Nome</label>
-                        </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalProfileLabel">Alterar perfil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ url('admin/profile') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" class="form-control" id="profile_id" name="id" value="{{ Auth::user()->id }}">
 
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="register_email" name="email" placeholder="E-mail">
-                            <label for="register_email">E-mail</label>
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="profile_name" name="name" placeholder="Nome" value="{{ Auth::user()->name }}">
+                                <label for="profile_name">Nome</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="profile_email" name="email" placeholder="E-mail" value="{{ Auth::user()->email }}">
+                                <label for="profile_email">E-mail</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="profile_password" name="password" placeholder="Senha">
+                                <label for="profile_password">Senha</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="profile_confirm_password" name="confirm_password" placeholder="Confirmar senha">
+                                <label for="profile_confirm_password">Confirmar senha</label>
+                            </div>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="register_password" name="password" placeholder="Senha">
-                            <label for="register_password">Nova senha</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="register_confirm_password" name="confirm_password" placeholder="Confirmar senha">
-                            <label for="register_confirm_password">Confirmar senha</label>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Salvar</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Salvar</button>
-                </div>
                 </div>
             </div>
         </div>

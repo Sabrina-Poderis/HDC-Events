@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 class SiteController extends Controller{
 
     public function index(){
-        $topEvents    = Event::with('establishment')->orderBy('created_at', "desc")->limit(3)->get()->toArray();
-        $liveEvents   = Event::with('establishment')->orderBy('created_at', "desc")->where('type', 'presencial')->limit(8)->get()->toArray();
-        $onlineEvents = Event::with('establishment')->orderBy('created_at', "desc")->where('type', 'online')->limit(8)->get()->toArray();
+        $liveEvents   = Event::with('establishment')->orderBy('created_at', "desc")->where('type', 'presencial')->limit(8)->get();
+        $onlineEvents = Event::with('establishment')->orderBy('created_at', "desc")->where('type', 'online')->limit(8)->get();
 
-        return view('index', compact('topEvents', 'liveEvents', 'onlineEvents'));
+        return view('index', compact('liveEvents', 'onlineEvents'));
     }
 
     public function contact(){
@@ -22,19 +21,62 @@ class SiteController extends Controller{
     }
 
     public function events(Request $request){
-        $events = Event::with('establishment')
-                       ->where(function ($query) use ($request){
-                            if($request->has('nome')){
-                               $query->where('nome', 'like', "%$request->nome%");
-                            }
-                            if($request->has('tipo')){
-                                $query->where('tipo', '=', "$request->tipo");
-                            }  
-                            if($request->has('status')){
-                                $query->where('status', '=', "$request->status");
+        $input = array_map('trim', $request->all());
+        
+        $events = Event::select('events.*')
+                       ->with('establishment')
+                       ->join('establishment', 'events.establishment_id', '=', 'establishment.id')
+                       ->where(function ($query) use ($input){
+                            if(!empty($input)){
+                                if(isset($input['title'])){
+                                    $query->where('title', 'like', "%{$input['title']}%");
+                                }
+    
+                                if(isset($input['type'])){
+                                    $query->where('type', '=', $input['type']);
+                                }
+    
+                                if(isset($input['date_from']) && isset($input['date_to'])){
+                                    $query->whereBetween('event_date', [$input['date_from'], $input['date_to']]);
+                                } else if(isset($input['date_from']) && !isset($input['date_to'])){
+                                    $query->whereDate('event_date', '>=', $input['date_from']);
+                                } else if(!isset($input['date_from']) && isset($input['date_to'])){
+                                    $query->whereDate('event_date', '<=', $input['date_to']);
+                                }
+
+                                if(isset($input['time_from']) && isset($input['time_to'])){
+                                    $query->whereTime('event_date', '>=', $input['time_from']);
+                                    $query->whereTime('event_date', '<=', $input['time_to']);
+                                } else if(isset($input['time_from']) && !isset($input['time_to'])){
+                                    $query->whereTime('event_date', '>=', $input['time_from']);
+                                } else if(!isset($input['time_from']) && isset($input['time_to'])){
+                                    $query->whereTime('event_date', '<=', $input['time_to']);
+                                }
+
+                                if(isset($input['address'])){
+                                    $query->where('address', 'like', "%{$input['address']}%");
+                                }
+                                if(isset($input['address_number'])){
+                                    $query->where('address_number', 'like', "%{$input['address_number']}%");
+                                }
+                                if(isset($input['address_addon'])){
+                                    $query->where('address_addon', 'like', "%{$input['address_addon']}%");
+                                }
+                                if(isset($input['district'])){
+                                    $query->where('district', 'like', "%{$input['district']}%");
+                                }
+                                if(isset($input['city'])){
+                                    $query->where('city', 'like', "%{$input['city']}%");
+                                }
+                                if(isset($input['uf'])){
+                                    $query->where('uf', 'like', "%{$input['uf']}%");
+                                }
+                                if(isset($input['cep'])){
+                                    $query->where('cep', 'like', "%{$input['cep']}%");
+                                }
                             }
                        })
-                       ->orderBy('created_at', "desc")
+                       ->orderBy('events.created_at', "desc")
                        ->paginate(10);
 
         return view('events', compact('events'));

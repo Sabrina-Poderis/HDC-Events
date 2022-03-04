@@ -10,30 +10,30 @@ use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller{
 
-    // public function __construct(){
-    //     return $this->middleware('auth:admin');
-    // }
+    public function __construct(){
+        $this->middleware('admin');
+    }
 
     public function index(Request $request){
         $input          = array_map('trim', $request->all());
         $establishments = \App\Establishment::all();
-        // dd($input);
+        
         $event = Event::with('establishment')
                       ->where(function ($query) use ($input){
                             if(!empty($input)){
-                                if($input['title']){
+                                if(isset($input['title'])){
                                     $query->where('title', 'like', "%{$input['title']}%");
                                 }
-                                if($input['description']){
+                                if(isset($input['description'])){
                                     $query->where('description', 'like', "%{$input['description']}%");
                                 }
-                                if($input['establishment_id']){
+                                if(isset($input['establishment_id'])){
                                     $query->where('establishment_id', '=', $input['establishment_id']);
                                 }
-                                if($input['event_date']){
+                                if(isset($input['event_date'])){
                                     $query->where('event_date', '=', $input['event_date']);
                                 }
-                                if($input['type']){
+                                if(isset($input['type'])){
                                     $query->where('type', '=', $input['type']);
                                 }
                             }
@@ -67,9 +67,22 @@ class EventController extends Controller{
         $validator = Validator::make($input, $rules, $messages);
 
         if($validator->passes()){
+            if($request->hasFile('image')){
+                $eventImage = $request->file('image');
+            } else {
+                $eventImage = null;
+            }
+                
             unset($input['_token']);
+            unset($input['image']);
 
-            Event::create($input);
+            $event = Event::create($input);
+
+            $resultSaveImage = $this->saveEventImage($event->id, $eventImage);
+
+            if(!$resultSaveImage){
+                return redirect('admin/eventos')->with(['error' => $resultSaveImage]);
+            }
 
             return redirect('admin/eventos')->with(['success' => "Evento cadastrado"]);
         } else {
@@ -109,9 +122,22 @@ class EventController extends Controller{
             $validator = Validator::make($input, $rules, $messages);
 
             if($validator->passes()){
+                if($request->hasFile('image')){
+                    $eventImage = $request->file('image');
+                } else {
+                    $eventImage = null;
+                }
+                
                 unset($input['_token']);
+                unset($input['image']);
 
                 $event->update($input);
+
+                $resultSaveImage = $this->saveEventImage($event->id, $eventImage);
+
+                if(!$resultSaveImage){
+                    return redirect('admin/eventos')->with(['error' => $resultSaveImage]);
+                }
 
                 return redirect('admin/eventos')->with(['success' => "Evento editado"]);
             } else {
@@ -135,4 +161,32 @@ class EventController extends Controller{
             return redirect('admin/eventos')->with(['error' => "Evento não encontrado"]);
         }
     }
+
+    private function saveEventImage($id, $file){
+        $event = Event::find($id);
+
+        if($file){
+            $extension = strtolower($file->getClientOriginalExtension());
+            
+            $size = $file->getSize();
+            $size = $size / 1024 / 1024;
+
+            if($extension != 'jfif' && $extension != 'png' && $extension != 'pjp' && $extension != 'pjpeg' && $extension != 'jpg' && $extension != 'jpeg'){ 
+                return "O formato da imagem é inválido, por favor envie somente jpg ou png com tamanho máximo de 10MB";
+            } else if($size >= 11){
+                return "O tamanho da imagem ultrapassa o limite, por favor envie somente jpg ou png com tamanho máximo de 10MB";
+            } else {
+                $fileNameEventImage = 'event_' . $event->id . '.' . $file->getClientOriginalExtension();
+                $destinationPath = public_path('uploads/img/events');
+                $file->move($destinationPath, $fileNameEventImage);
+            }
+        } else {
+            $fileNameEventImage = isset($event->image) ? $event->image : null;
+        }
+
+        $event->update(['image' => $fileNameEventImage]);
+
+        return true;
+    }
+
 }

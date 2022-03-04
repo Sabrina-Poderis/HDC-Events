@@ -105,20 +105,6 @@
 @section('content')
     <h1 class="mb-2">Eventos</h1>
 
-    @if(session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Sucesso!</strong> {{ session()->get('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if(session()->has('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Atenção!</strong> {{ session()->get('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <div>
         <button class="btn btn-success text-light" data-bs-toggle="modal" data-bs-target="#modalEventStore">
             Cadastrar evento
@@ -152,7 +138,7 @@
                     <div class="col-12">
                         <div class="form-floating mb-3">
                             <select data-live-search="true" class="form-select selectpicker" id="filter_establishment_id" name="establishment_id" aria-label="Estabelecimento">
-                                <option>Selecione</option>
+                                <option value="">Selecione</option>
                                 @foreach($establishments as $establishment)
                                     <option {{ Request('establishment_id') == $establishment->id ? "selected" : "" }} value="{{$establishment->id}}">{{$establishment->name}}</option>
                                 @endforeach
@@ -163,7 +149,7 @@
 
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-floating mb-3">
-                            <input type="datetime" class="form-control" id="filter_event_date" name="event_date" value="{{Request('event_date') }}" placeholder="Dia do evento">
+                            <input type="datetime-local" class="form-control" id="filter_event_date" name="event_date" value="{{Request('event_date') }}" placeholder="Dia do evento">
                             <label for="filter_cep">Dia do Evento</label>
                         </div>
                     </div>
@@ -171,7 +157,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-floating mb-3">
                             <select data-live-search="true" class="form-select selectpicker" id="filter_type" name="type" aria-label="Tipo">
-                                <option>Selecione</option>
+                                <option value="">Selecione</option>
                                 <option {{ Request('status') == "presencial" ? "selected" : "" }} value="presencial">Presencial</option>
                                 <option {{ Request('status') == "online"     ? "selected" : "" }} value="online">Online</option>
                             </select>
@@ -244,7 +230,7 @@
     <div class="modal fade" id="modalEventStore" tabindex="-1" aria-labelledby="modalEventStoreLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="form_event_store" action="{{ url('admin/evento/store') }}" method="post">
+                <form id="form_event_store" action="{{ url('admin/evento/store') }}" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalEventStoreLabel">Evento</h5>
@@ -280,7 +266,7 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-floating mb-3">
-                                    <input type="datetime" class="form-control" id="eventStore_event_date" name="event_date" value="{{old('event_date') }}" placeholder="Dia do evento">
+                                    <input type="datetime-local" class="form-control" id="eventStore_event_date" name="event_date" value="{{old('event_date') }}" placeholder="Dia do evento">
                                     <label for="eventStore_cep">Dia do Evento</label>
                                 </div>
                             </div>
@@ -289,11 +275,15 @@
                                 <div class="form-floating mb-3">
                                     <select data-live-search="true" class="form-select selectpicker" id="eventStore_type" name="type" aria-label="Tipo">
                                         <option>Selecione</option>
-                                        <option {{ Request('old') == "presencial" ? "selected" : "" }} value="presencial">Presencial</option>
-                                        <option {{ Request('old') == "online"     ? "selected" : "" }} value="online">Online</option>
+                                        <option {{ old('type') == "presencial" ? "selected" : "" }} value="presencial">Presencial</option>
+                                        <option {{ old('type') == "online"     ? "selected" : "" }} value="online">Online</option>
                                     </select>
                                     <label for="eventStore_type">Tipo</label>
                                 </div>
+                            </div>
+
+                            <div class="col-12">
+                                <input type="file" accept="image/x-png,image/jpeg" value="{{ old('image') }}" id="eventUpdate_event_image" name="image" >
                             </div>
                         </div>
                     </div>
@@ -308,7 +298,7 @@
     <div class="modal fade" id="modalEventUpdate" tabindex="-1" aria-labelledby="modalEventUpdateLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="form_event_update" action="{{ url('admin/evento/update') }}" method="post">
+                <form id="form_event_update" action="{{ url('admin/evento/update') }}" method="post" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" class="form-control" id="eventUpdate_id" name="id" value="{{old('id')}}">
 
@@ -346,7 +336,7 @@
 
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-floating mb-3">
-                                    <input type="datetime" class="form-control" id="eventUpdate_event_date" name="event_date" value="{{old('event_date') }}" placeholder="Dia do evento">
+                                    <input type="datetime-local" class="form-control" id="eventUpdate_event_date" name="event_date" value="{{old('event_date') }}" placeholder="Dia do evento">
                                     <label for="eventUpdate_cep">Dia do Evento</label>
                                 </div>
                             </div>
@@ -355,11 +345,15 @@
                                 <div class="form-floating mb-3">
                                     <select data-live-search="true" class="form-select selectpicker" id="eventUpdate_type" name="type" aria-label="Tipo">
                                         <option>Selecione</option>
-                                        <option {{ Request('old') == "presencial" ? "selected" : "" }} value="presencial">Presencial</option>
-                                        <option {{ Request('old') == "online"     ? "selected" : "" }} value="online">Online</option>
+                                        <option {{ old('type') == "presencial" ? "selected" : "" }} value="presencial">Presencial</option>
+                                        <option {{ old('type') == "online"     ? "selected" : "" }} value="online">Online</option>
                                     </select>
                                     <label for="eventUpdate_type">Tipo</label>
                                 </div>
+                            </div>
+
+                            <div class="col-12">
+                                <input type="file" accept="image/x-png,image/jpeg" value="{{ old('image') }}" id="eventUpdate_event_image" name="image" >
                             </div>
                         </div>
                     </div>

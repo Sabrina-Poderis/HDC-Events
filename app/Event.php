@@ -15,7 +15,8 @@ class Event extends Model{
         'description',
         'establishment_id',
         'event_date',
-        'type'
+        'type',
+        'image'
     ];
 
     public function establishment(){

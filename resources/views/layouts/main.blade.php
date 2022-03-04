@@ -28,16 +28,37 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/contato">Contato</a>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-light text-danger" data-bs-toggle="modal" data-bs-target="#modalLogin">
-                                Acessar sua conta
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-outline-danger me-3" data-bs-toggle="modal" data-bs-target="#modalRegister"> 
-                                Cadastre-se
-                            </button>
-                        </li>
+                        @auth
+                            @if(Auth::user()->is_admin)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/admin') }}"> 
+                                        Dashboard
+                                    </a>
+                                </li>
+                            @endif
+                            <div class="nav-item">
+                                <a href="{{ url('/logout') }}" class="nav-link px-3"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();"
+                                >
+                                    {{ Auth::user()->name }} - Sair
+                                </a>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </div>
+                        @else
+                            <li class="nav-item">
+                                <button type="button" class="btn btn-light text-danger" data-bs-toggle="modal" data-bs-target="#modalLogin">
+                                    Acessar sua conta
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="btn btn-outline-danger me-3" data-bs-toggle="modal" data-bs-target="#modalRegister"> 
+                                    Cadastre-se
+                                </button>
+                            </li>
+                        @endauth
                     </ul>
                     <form>
                         <div class="input-group">
@@ -51,24 +72,25 @@
             </div>
         </nav>
 
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-        </div>
-
         <section class="mt-5">
+            <div class="container">
+                @if(session()->has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Sucesso!</strong> {{ session()->get('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+    
+                @if(session()->has('error'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Atenção!</strong> {{ session()->get('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+            </div>
+
             @yield('content')
+            <br><br>
         </section>
 
         <footer>
@@ -104,25 +126,26 @@
         <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLoginLabel">Acesse sua conta</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
                     <form method="POST" action="{{ route('login') }}">
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="login_email" name="login_email" placeholder="E-mail">
-                            <label for="login_email">E-mail</label>
+                        {{ csrf_field() }}
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLoginLabel">Acesse sua conta</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="login_password" name="login_password" placeholder="Senha">
-                            <label for="login_password">Senha</label>
+                        <div class="modal-body">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="login_email" name="email" placeholder="E-mail">
+                                <label for="login_email">E-mail</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="password" class="form-control" id="login_password" name="password" placeholder="Senha">
+                                <label for="login_password">Senha</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Logar</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger">Logar</button>
-                </div>
                 </div>
             </div>
         </div>

@@ -191,20 +191,6 @@
 @section('content')
     <h1 class="mb-2">Estabelecimentos</h1>
 
-    @if(session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Sucesso!</strong> {{ session()->get('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if(session()->has('error'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Atenção!</strong> {{ session()->get('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <div>
         <button class="btn btn-success text-light" data-bs-toggle="modal" data-bs-target="#modalEstablishmentStore">
             Cadastrar estabelecimento

@@ -10,40 +10,40 @@ use Illuminate\Support\Facades\Validator;
 
 class EstablishmentController extends Controller{
 
-    // public function __construct(){
-    //     return $this->middleware('auth:admin');
-    // }
+    public function __construct(){
+        $this->middleware('admin');
+    }
 
     public function index(Request $request){
         $input = array_map('trim', $request->all());
 
         $establishment = Establishment::where(function ($query) use ($input){
                             if(!empty($input)){
-                                if($input['name']){
+                                if(isset($input['name'])){
                                     $query->where('name', 'like', "%{$input['name']}%");
                                 }
-                                if($input['cnpj']){
+                                if(isset($input['cnpj'])){
                                     $query->where('cnpj', 'like', "%{$input['cnpj']}%");
                                 }
-                                if($input['address']){
+                                if(isset($input['address'])){
                                     $query->where('address', 'like', "%{$input['address']}%");
                                 }
-                                if($input['address_number']){
+                                if(isset($input['address_number'])){
                                     $query->where('address_number', 'like', "%{$input['address_number']}%");
                                 }
-                                if($input['address_addon']){
+                                if(isset($input['address_addon'])){
                                     $query->where('address_addon', 'like', "%{$input['address_addon']}%");
                                 }
-                                if($input['district']){
+                                if(isset($input['district'])){
                                     $query->where('district', 'like', "%{$input['district']}%");
                                 }
-                                if($input['city']){
+                                if(isset($input['city'])){
                                     $query->where('city', 'like', "%{$input['city']}%");
                                 }
-                                if($input['uf']){
+                                if(isset($input['uf'])){
                                     $query->where('uf', 'like', "%{$input['uf']}%");
                                 }
-                                if($input['cep']){
+                                if(isset($input['cep'])){
                                     $query->where('cep', 'like', "%{$input['cep']}%");
                                 }
                             }

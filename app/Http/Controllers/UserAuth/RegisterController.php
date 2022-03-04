@@ -14,10 +14,10 @@ class RegisterController extends Controller{
 
     use RegistersUsers;
 
-    protected $redirectTo = '/eventos';
+    protected $redirectTo = '/';
 
     public function __construct(){
-        $this->middleware('user.guest');
+        $this->middleware('guest');
     }
 
     protected function guard(){
