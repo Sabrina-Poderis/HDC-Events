@@ -1,5 +1,5 @@
 # HDC Events
-> Blog desenvolvido em utlizando laravel, sob as orientações de [Matheus Battisti](https://www.youtube.com/channel/UCDoFiMhpOnLFq1uG4RL4xags) em seu [Curso de Laravel](https://www.youtube.com/playlist?list=PLnDvRpP8BnewYKI1n2chQrrR4EYiJKbUG
+> Blog desenvolvido em utlizando laravel, sob as orientações de [Matheus Battisti](https://www.youtube.com/channel/UCDoFiMhpOnLFq1uG4RL4xags) em seu [Curso de Laravel](https://www.youtube.com/playlist?list=PLnDvRpP8BnewYKI1n2chQrrR4EYiJKbUG)
 
 ![Página inicial do site](./public/img/index.png)
 
