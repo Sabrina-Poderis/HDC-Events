@@ -2,7 +2,6 @@
 @section('title',  $event->title)
 
 @section('content')
-
     <!-- Hero -->
     <div class="container py-3">
         @if($event->image)
@@ -15,7 +14,6 @@
     <!-- Nome do evento -->
     <div class="container py-3">
         <h1>{{ $event->title }}</h1>
-
         <p>
             <ion-icon name="time-outline"></ion-icon> {{ \Carbon\Carbon::parse($event->event_Date)->format('d/m h:m') }}
         </p>
@@ -30,16 +28,47 @@
             </p>
         @endif
 
-
         <h2>Descrição do evento</h2>
         <p>
             {{ $event->description }}
         </p>
+
+
+        @auth
+            @if($userParticipating)
+                <div class="float-end">
+                    <form method="post" action="{{ route('desmarcar-presenca') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <button type="submit" class="btn btn-outline-danger"> 
+                            Desmarcar presença
+                        </button>
+                    </form>
+                </div>
+            @else
+                <div class="float-end">
+                    <form method="post" action="{{ route('confirmar-presenca') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="event_id" value="{{ $event->id }}">
+                        <button type="submit" class="btn btn-outline-danger"> 
+                            Confirmar presença
+                        </button>
+                    </form>
+                </div>
+            @endif
+        @else desmarcar
+            <div class="float-end">
+                
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="Você precisa estar logado para participar de um evento"> 
+                    Confirmar presença
+                </button>
+            </div>
+        @endif
     </div>
 
     <!-- Covid -->
     @if($event->type == 'presencial')
-        <div class="bg-danger">
+        <div class="bg-danger mt-5">
             <div class="container px-3">
                 <p class="text-white" >
                 <br><br>

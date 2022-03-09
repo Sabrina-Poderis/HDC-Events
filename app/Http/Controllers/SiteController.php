@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Establishment;
 use App\Event;
+use App\EventsParticipants;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SiteController extends Controller{
 
@@ -84,8 +86,63 @@ class SiteController extends Controller{
 
     public function event($id){
         $event = Event::with('establishment')->findOrFail($id);
+        $userParticipating = EventsParticipants::where('event_id', $id)->where('user_id', Auth::id())->first();
 
-        return view('event', compact('event'));
+        return view('event', compact('event', 'userParticipating'));
+    }
+
+    public function confirmParticipation(Request $request){
+        $input = array_map('trim', $request->all());
+        $input['user_id'] = Auth::id();
+        
+        $userParticipating = EventsParticipants::where('event_id', $input['event_id'])->where('user_id', $input['user_id'])->first();
+
+        if($userParticipating){
+            return back()->with(['error' => "Você já está participando deste evento"]);
+        } else {
+            unset($input['_token']);
+
+            $confirmAttendance = EventsParticipants::create($input);
+
+            return back()->with(['success' => "Participação confirmada com sucesso!"]);
+        }
+    }
+
+    public function cancelParticipation(Request $request){
+        $input = array_map('trim', $request->all());
+        $input['user_id'] = Auth::id();
+        
+        $userParticipating = EventsParticipants::where('event_id', $input['event_id'])->where('user_id', $input['user_id'])->first();
+
+        if($userParticipating){
+            if($userParticipating->delete()){
+                return back()->with(['success' => "Participação desmarcada com sucesso!"]);
+            } else {
+                return back()->with(['error' => "Ocorreu um erro ao desmarcar a sua participação"]);
+            }
+
+        } else {
+            return back()->with(['error' => "Você não está participando deste evento"]);
+        }
+    }
+
+    public function searchEvents(Request $request){
+        $input = array_map('trim', $request->all());
+        
+        $events = Event::select('events.*')
+                       ->with('establishment')
+                       ->join('establishment', 'events.establishment_id', '=', 'establishment.id')
+                       ->where(function ($query) use ($input){
+                            if(!empty($input)){
+                                if(isset($input['title'])){
+                                    $query->where('title', 'like', "%{$input['title']}%");
+                                }
+                            }
+                       })
+                       ->orderBy('events.created_at', "desc")
+                       ->paginate(10);
+
+        return view('events', compact('events'));
     }
 
 }

@@ -189,6 +189,7 @@
                         <th>Localização</th>
                         <th>Data do evento</th>
                         <th>Tipo</th>
+                        <th>Participantes</th>
                         <th> </th>
                     </thead>
                     <tbody>
@@ -199,6 +200,14 @@
                                 <td>{{ $event->establishment->name }}</td>
                                 <td>{{ \Carbon\Carbon::parse($event->event_date)->format('d/m/Y h:i') }}</td>
                                 <td>{{ $event->type }}</td>
+                                <td>
+                                    @php
+                                        $totParticipants = \App\EventsParticipants::where('event_id', $event->id)->count('id');
+                                    @endphp
+                                    <a href="{{ route('evento-participantes', [$event->id]) }}">
+                                        {{ $totParticipants == null || $totParticipants == '' ? 0 : $totParticipants}}
+                                    </a>
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-warning" onclick="updateEvent({{ $event->id }})">
                                         <ion-icon name="pencil"></ion-icon>

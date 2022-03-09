@@ -6,6 +6,9 @@ Route::get('/', 'SiteController@index');
 Route::get('/contato', 'SiteController@contact')->name('contato');
 Route::get('/eventos', 'SiteController@events')->name('eventos');
 Route::get('/evento/{id}', 'SiteController@event')->name('evento');
+Route::get('/buscar-eventos', 'SiteController@searchEvents')->name('buscar-eventos');
+Route::post('/confirmar-presenca', 'SiteController@confirmParticipation')->name('confirmar-presenca');
+Route::post('/desmarcar-presenca', 'SiteController@cancelParticipation')->name('desmarcar-presenca');
 
 Route::post('/login', 'UserAuth\LoginController@login');
 Route::post('/logout', 'UserAuth\LoginController@logout');
@@ -27,6 +30,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/evento/store', 'EventController@store');
     Route::post('/evento/update', 'EventController@update');
     Route::post('/evento/destroy', 'EventController@destroy');
+    Route::get('/evento-participantes/{event_id}', 'EventController@participantsFromEvent')->name('evento-participantes');
+    Route::post('/evento-participantes/destroy', 'EventController@cancelParticipation')->name('desmarcar-presenca-participante');
     Route::get('/getEvents', 'EventController@getEvents');
     Route::get('/getEvent', 'EventController@getEvent');
 

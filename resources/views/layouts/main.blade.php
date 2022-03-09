@@ -60,9 +60,10 @@
                             </li>
                         @endauth
                     </ul>
-                    <form>
+                    <form method="get" action="{{ route('buscar-eventos') }}">
+                        {{ csrf_field() }}
                         <div class="input-group">
-                            <input type="search" class="form-control" placeholder="Pesquisar eventos" aria-label="Pesquisar eventos">
+                            <input type="search" name="title" class="form-control" placeholder="Pesquisar eventos" aria-label="Pesquisar eventos">
                             <button class="btn btn-outline-danger" type="submit">
                                 <ion-icon name="search-outline"></ion-icon>
                             </button>

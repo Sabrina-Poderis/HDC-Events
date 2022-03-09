@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Event;
+use App\EventsParticipants;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
@@ -87,6 +88,49 @@ class EventController extends Controller{
             return redirect('admin/eventos')->with(['success' => "Evento cadastrado"]);
         } else {
             return redirect('admin/eventos')->withErrors($validator)->withInput()->with(['form_error' => 'Store']);
+        }
+    }
+
+    public function participantsFromEvent(Request $request, $event_id){
+        $event = Event::findOrFail($event_id);
+        $input = array_map('trim', $request->all());
+
+        $participants = EventsParticipants::select('event_participants.*')
+                                          ->with('event')
+                                          ->with('user')
+                                          ->join('events', 'event_participants.event_id', '=', 'events.id')
+                                          ->join('users', 'event_participants.user_id', '=', 'users.id')
+                                          ->where('event_id', $event_id)
+                                          ->where(function ($query) use ($input){
+                                                if(!empty($input)){
+                                                    if(isset($input['name'])){
+                                                        $query->where('name', 'like', "%{$input['name']}%");
+                                                    }
+                                                    if(isset($input['email'])){
+                                                        $query->where('email', 'like', "%{$input['email']}%");
+                                                    }
+                                                }
+                                           });
+
+        $countParticipants = $participants->get()->count();
+        $participants      = $participants->paginate(10);
+
+        return view('admin.events-participants', compact('participants', 'countParticipants', 'event'));
+    }
+
+    public function cancelParticipation(Request $request){
+        $input = array_map('trim', $request->all());
+        $userParticipating = EventsParticipants::where('event_id', $input['event_id'])->where('user_id', $input['user_id'])->first();
+
+        if($userParticipating){
+            if($userParticipating->delete()){
+                return back()->with(['success' => "Participação desmarcada com sucesso!"]);
+            } else {
+                return back()->with(['error' => "Ocorreu um erro ao desmarcar a participação"]);
+            }
+
+        } else {
+            return back()->with(['error' => "O usuário não está participando deste evento"]);
         }
     }
 
