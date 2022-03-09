@@ -20,3 +20,5 @@ Utilize o comando `php artisan serve` para executar o projeto
 
 ## Sobre
 O HDC Events é um site de eventos, que possui uma área de exibição de eventos disponível ao usuário e também uma área administrativa para o gerenciamento de eventos, estabelecimentos e usuários.
+
+![Área administrativa do site](./public/img/index-admin.png)
